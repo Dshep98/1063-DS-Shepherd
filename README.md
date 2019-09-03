@@ -1,3 +1,7 @@
 # 1063-DS-Shepherd
-Dominique Shepherd
-Email Address: Dshep98@gmail.com
+
+![](https://github.com/Dshep98/1063-DS-Shepherd/blob/master/giyhubpic.jpg)
+
+
+###### Dominique Shepherd
+> Email Address: Dshep98@gmail.com
