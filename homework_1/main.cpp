@@ -33,7 +33,7 @@ struct Student
 int loadClassList(Student* classList, string Text)
 {
 	ifstream infile;       // get a stream variable
-	infile.open("Text.txt"); // open the stream using our fileName param
+	infile.open("input_data"); // open the stream using our fileName param
 	int i = 0;          // index (counter)
 
 	// While we have not reached the end of file
