@@ -4,97 +4,167 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include<fstream>
 using namespace std;
 
-struct Node{
-    int Value;
-    Node* Next;
-    Node(int x){
-        Value = x;
-        Next = NULL;
+struct Employee
+{
+    string emp_id;
+    string first_name;
+    string last_name;
+    string gender;
+    string email;
+    double hourly_pay;
+    Employee *Next;
+
+    Employee()
+    {
+        emp_id = "";
+        first_name = "";
+        last_name = "";
+        gender = "";
+        email = "";
+        hourly_pay = 0.0;
+    }
+
+    Employee(string id, string first, string last, string sex, string mail, double pay)
+    {
+        emp_id = id;
+        first_name = first;
+        last_name = last;
+        gender = sex;
+        email = mail;
+        hourly_pay = pay;
     }
 };
 
-class LinkedList{
+class LinkedList
+{
 private:
-    Node* Head;
+    Employee *Head;
 
 public:
-    LinkedList(){
+    LinkedList()
+    {
         Head = NULL;
     }
+    //Adds item to front of list
+    void Push(string id, string first, string last, string sex, string mail, double pay)
+    {
+        Employee *Temp = new Employee();
 
-
-    void frontSert(int x){
-        Node* Temp = new Node(x);
-
-        if(Head == NULL){
+        if (Head == NULL)
+        {
             Head = Temp;
-        }else{
+        }
+        else
+        {
             Temp->Next = Head;
             Head = Temp;
         }
-        
     }
-
-    void endSert(int x){
-        Node* Temp = new Node(x);
-
-        if(Head == NULL){
-            Head = Temp;
-        }else{
-            Node* Temp2 = Head;
-
-            while(Temp2->Next != NULL){
-
-                Temp2 = Temp2->Next;
-            }
-
-            Temp2->Next = Temp;
-        }
+    //Removes the first item in list
+    Employee Pop()
+    {
+        Employee *Temp = Head;
+        Head = Temp->Next;
+        Employee result = *Temp;
+        delete Temp;
+        return result;
     }
-
-    void print(){
-        Node* Temp = Head;
-
-        while(Temp != NULL){
-            cout<<Temp->Value;
-            if(Temp->Next){
-                cout<<"->";
+    //Returns true or false if item is in list
+    bool find( string first, string last) 
+    {
+        Employee*Temp = Head;
+        while (Temp != NULL)
+        {
+            if (Temp->first_name== first || Temp->last_name== last)
+            {
+                return true;
             }
             Temp = Temp->Next;
         }
+        return false;
     }
-};
-
-
-int main(){
-    Node* A = new Node(8);
-    Node* B = new Node(5);
-    Node* C = new Node(7);
-    Node* D = new Node(33);
-
-    A->Next = B;
-    B->Next = C;
-    C->Next = D;
-
-    Node* Temp = A;
-
+    //Finds the location of the person to be deleted
+     int findDelete( string first, string last) 
+    {
+        int loc = -1;
+        Employee*Temp = Head;
+        while (Temp != NULL)
+        {   for(loc=0; loc < loc+1 ; loc++)
+            {
+                if (Temp->first_name== first || Temp->last_name== last)
+                {
+                    cout << loc;
+                }
+                Temp = Temp->Next;
+            }
+        }
+        return loc;
+    }
+    //Deletes item from anywhere in list
+    void Delete(int loc) 
+    {
+    Employee *Temp = Head;
+        for (int i = 0; i < loc- 2; i++)
+        {
+            Temp = Temp->Next;
+        }
+        Employee *Temp2 = Temp->Next;
+        Temp->Next = Temp2->Next;
+        delete (Temp2);
+    }
+    //Prints items in the list.
+   void print()
+  {
+    Employee* Temp = Head;
     while(Temp != NULL){
-        cout<<Temp->Value<<endl;
+        cout <<Temp->emp_id<<", "
+              <<Temp->first_name
+              <<", "<<Temp->last_name
+              <<", "<<Temp->email<<", "
+              <<Temp->gender<<", "
+              <<Temp->hourly_pay;
+        if(Temp->Next){
+            cout<<"->";
+        }
         Temp = Temp->Next;
     }
+  }
+};
 
-    LinkedList L;
+int main()
+{
+    LinkedList EmpList;
 
-    for(int i=0;i<8;i++){
-        L.frontSert(i);
+    string empid;
+    string first;
+    string last;
+    string email;
+    string gender;
+    double pay;
+
+    string line;
+    string *tokens;
+    ifstream infile;
+    ofstream outfile;
+    outfile.open("output.dat");
+    outfile << "Dominique Shepherd\n";
+    infile.open("employees.dat");
+    
+    while(!infile.eof())
+    {
+        infile>>empid>>first>>last>>gender>>email>>pay;
+
+        //cout<<empid<<", "<<first<<", "<<last<<", "<<email<<", "<<gender<<", "<<pay<<endl;
+
+        EmpList.Push(empid,first,last,email,gender,pay);
     }
 
-    for(int i=0;i<8;i++){
-        L.endSert(i);
-    }
-    L.print();
+    EmpList.print();
+
+    
 
 
     return 0;
